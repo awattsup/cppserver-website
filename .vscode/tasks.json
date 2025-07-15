@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build cppserver",
+      "type": "shell",
+      "command": "cmake -S . -B build && cmake --build build",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Run cppserver",
+      "type": "shell",
+      "command": "./build/cppserver",
+      "group": "test",
+      "problemMatcher": [],
+      "dependsOn": ["Build cppserver"]
+    }
+  ]
+}
