@@ -1,5 +1,5 @@
 
-# spacebrews-cppserver
+# cppserver-website
 
 
 A lightweight C++ web server using the CROW framework. Designed for IoT data collection on devices like Raspberry Pi. Now located in the `spacebrews-cppserver` subdirectory.
