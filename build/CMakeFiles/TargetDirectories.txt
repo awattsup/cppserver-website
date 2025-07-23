@@ -1,5 +1,3 @@
-/Users/00088350/Desktop/cppserver/build/CMakeFiles/cppserver.dir
-/Users/00088350/Desktop/cppserver/build/CMakeFiles/package.dir
-/Users/00088350/Desktop/cppserver/build/CMakeFiles/package_source.dir
-/Users/00088350/Desktop/cppserver/build/CMakeFiles/edit_cache.dir
-/Users/00088350/Desktop/cppserver/build/CMakeFiles/rebuild_cache.dir
+/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles/cppserver.dir
+/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles/edit_cache.dir
+/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles/rebuild_cache.dir

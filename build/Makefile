@@ -57,33 +57,13 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/00088350/Desktop/cppserver
+CMAKE_SOURCE_DIR = /Users/00088350/Desktop/cppserver/cppserver-website
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/00088350/Desktop/cppserver/build
+CMAKE_BINARY_DIR = /Users/00088350/Desktop/cppserver/cppserver-website/build
 
 #=============================================================================
 # Targets provided globally by CMake.
-
-# Special rule for the target package
-package: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool..."
-	/opt/homebrew/bin/cpack --config ./CPackConfig.cmake
-.PHONY : package
-
-# Special rule for the target package
-package/fast: package
-.PHONY : package/fast
-
-# Special rule for the target package_source
-package_source:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Run CPack packaging tool for source..."
-	/opt/homebrew/bin/cpack --config ./CPackSourceConfig.cmake /Users/00088350/Desktop/cppserver/build/CPackSourceConfig.cmake
-.PHONY : package_source
-
-# Special rule for the target package_source
-package_source/fast: package_source
-.PHONY : package_source/fast
 
 # Special rule for the target edit_cache
 edit_cache:
@@ -107,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/build/CMakeFiles /Users/00088350/Desktop/cppserver/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles /Users/00088350/Desktop/cppserver/cppserver-website/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -149,29 +129,53 @@ cppserver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/build
 .PHONY : cppserver/fast
 
-main.o: main.cpp.o
-.PHONY : main.o
+src/database.o: src/database.cpp.o
+.PHONY : src/database.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.o
-.PHONY : main.cpp.o
+src/database.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/database.cpp.o
+.PHONY : src/database.cpp.o
 
-main.i: main.cpp.i
-.PHONY : main.i
+src/database.i: src/database.cpp.i
+.PHONY : src/database.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.i
-.PHONY : main.cpp.i
+src/database.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/database.cpp.i
+.PHONY : src/database.cpp.i
 
-main.s: main.cpp.s
-.PHONY : main.s
+src/database.s: src/database.cpp.s
+.PHONY : src/database.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.s
-.PHONY : main.cpp.s
+src/database.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/database.cpp.s
+.PHONY : src/database.cpp.s
+
+src/devices.o: src/devices.cpp.o
+.PHONY : src/devices.o
+
+# target to build an object file
+src/devices.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/devices.cpp.o
+.PHONY : src/devices.cpp.o
+
+src/devices.i: src/devices.cpp.i
+.PHONY : src/devices.i
+
+# target to preprocess a source file
+src/devices.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/devices.cpp.i
+.PHONY : src/devices.cpp.i
+
+src/devices.s: src/devices.cpp.s
+.PHONY : src/devices.s
+
+# target to generate assembly for a file
+src/devices.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/devices.cpp.s
+.PHONY : src/devices.cpp.s
 
 # Help Target
 help:
@@ -180,13 +184,14 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... package"
-	@echo "... package_source"
 	@echo "... rebuild_cache"
 	@echo "... cppserver"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... src/database.o"
+	@echo "... src/database.i"
+	@echo "... src/database.s"
+	@echo "... src/devices.o"
+	@echo "... src/devices.i"
+	@echo "... src/devices.s"
 .PHONY : help
 
 

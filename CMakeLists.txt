@@ -24,12 +24,16 @@ set(Boost_USE_STATIC_LIBS ON)
 find_package(Boost 1.88 REQUIRED COMPONENTS system filesystem)
 
 
-add_executable(cppserver main.cpp)
+
+# Collect all source files in src/
+file(GLOB SOURCES src/*.cpp)
+add_executable(cppserver ${SOURCES})
 
 # include_directories(/opt/homebrew/include)
 # link_directories(/opt/homebrew/include)
+
 # Include directories
-target_include_directories(cppserver PRIVATE ${Boost_INCLUDE_DIRS} )
+target_include_directories(cppserver PRIVATE ${Boost_INCLUDE_DIRS} include)
 
 
 # target_link_libraries(cppserver PRIVATE crow::crow)
