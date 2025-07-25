@@ -7,18 +7,19 @@
 
 class Device {
 protected:
-    std::string deviceId;
-    std::string statusfileName;
+    std::string deviceID;
+    std::string statusfileName = deviceID + "_status.json"; // Default status file name
 public:
-    virtual ~Device() = default;
+    Device();
+    virtual ~Device();
 
     virtual void setDeviceId(const std::string& id);
     virtual std::string getDeviceId() const;
     virtual std::string getStatusFileName() const;
 
-    // JSON serialization
-    virtual Json::Value toJson() const = 0;
-    virtual void fromJson(const Json::Value& val) = 0;
+    // // JSON serialization
+    // virtual Json::Value toJson() const = 0;
+    // virtual void fromJson(const Json::Value& val) = 0;
 };
 
 class iSpindle : public Device {
@@ -32,6 +33,8 @@ private:
     int assignedBrewId;
 public:
     iSpindle();
+
+    void processData(const std::string& data);
 
     // Setters
     void setTemperature(double temp);
@@ -52,17 +55,9 @@ public:
     int getAssignedBrewId() const;
 
     // JSON serialization
-    Json::Value toJson() const override;
-    void fromJson(const Json::Value& val) override;
+    Json::Value toDeviceJSON() const ;
+    void fromDeviceJSON(const Json::Value& val) ;
 
-private:
-    double temperature;
-    double gravity;
-    double angle;
-    double batteryVoltage;
-    double calibCoeffs[4];
-    double calibGravity;
-    int assignedBrewId;
 };
 
 class DeviceList {
@@ -72,13 +67,13 @@ public:
     DeviceList();
 
     void addDevice(std::unique_ptr<Device> device);
-    Device* getDevice(const std::string& id);
+    Device* getDevice(const std::string& id) const;
     void removeDevice(const std::string& id);
     size_t size() const;
 
-    // JSON serialization
-    Json::Value toJson() const;
-    void fromJson(const Json::Value& root);
+    // // JSON serialization
+    // Json::Value toDeviceJSON() const;
+    // void fromDeviceJSON(const Json::Value& root);
 
 
 };

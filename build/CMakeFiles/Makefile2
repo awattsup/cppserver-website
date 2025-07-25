@@ -85,12 +85,12 @@ clean: CMakeFiles/cppserver.dir/clean
 CMakeFiles/cppserver.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles --progress-num=1,2,3 "Built target cppserver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles --progress-num=1,2,3,4 "Built target cppserver"
 .PHONY : CMakeFiles/cppserver.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cppserver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles 4
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cppserver.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles 0
 .PHONY : CMakeFiles/cppserver.dir/rule
@@ -102,7 +102,7 @@ cppserver: CMakeFiles/cppserver.dir/rule
 # codegen rule for target.
 CMakeFiles/cppserver.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target cppserver"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/00088350/Desktop/cppserver/cppserver-website/build/CMakeFiles --progress-num=1,2,3,4 "Finished codegen for target cppserver"
 .PHONY : CMakeFiles/cppserver.dir/codegen
 
 # clean rule for target.

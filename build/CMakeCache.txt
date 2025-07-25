@@ -22,7 +22,13 @@ Boost_FILESYSTEM_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_filesystem.a
 //Path to a file.
 Boost_INCLUDE_DIR:PATH=/opt/homebrew/include
 
+Boost_LOG_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_log.a
+
+Boost_LOG_SETUP_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_log_setup.a
+
 Boost_SYSTEM_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_system.a
+
+Boost_THREAD_LIBRARY_RELEASE:STRING=/opt/homebrew/lib/libboost_thread.a
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=CMAKE_ADDR2LINE-NOTFOUND
@@ -226,14 +232,26 @@ CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 //The directory containing a CMake configuration file for boost_atomic.
 boost_atomic_DIR:PATH=/opt/homebrew/lib/cmake/boost_atomic-1.88.0
 
+//The directory containing a CMake configuration file for boost_chrono.
+boost_chrono_DIR:PATH=/opt/homebrew/lib/cmake/boost_chrono-1.88.0
+
 //The directory containing a CMake configuration file for boost_filesystem.
 boost_filesystem_DIR:PATH=/opt/homebrew/lib/cmake/boost_filesystem-1.88.0
 
 //The directory containing a CMake configuration file for boost_headers.
 boost_headers_DIR:PATH=/opt/homebrew/lib/cmake/boost_headers-1.88.0
 
+//The directory containing a CMake configuration file for boost_log.
+boost_log_DIR:PATH=/opt/homebrew/lib/cmake/boost_log-1.88.0
+
+//The directory containing a CMake configuration file for boost_log_setup.
+boost_log_setup_DIR:PATH=/opt/homebrew/lib/cmake/boost_log_setup-1.88.0
+
 //The directory containing a CMake configuration file for boost_system.
 boost_system_DIR:PATH=/opt/homebrew/lib/cmake/boost_system-1.88.0
+
+//The directory containing a CMake configuration file for boost_thread.
+boost_thread_DIR:PATH=/opt/homebrew/lib/cmake/boost_thread-1.88.0
 
 //Value Computed by CMake
 cppserver_BINARY_DIR:STATIC=/Users/00088350/Desktop/cppserver/cppserver-website/build
@@ -393,15 +411,23 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/opt/homebrew/lib/cmake/Boost-1.88.0/BoostConfig.cmake][cfound components: system filesystem ][v1.88.0(1.88)]
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/opt/homebrew/lib/cmake/Boost-1.88.0/BoostConfig.cmake][cfound components: log log_setup filesystem system thread ][v1.88.0()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: boost_atomic_DIR
 boost_atomic_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_chrono_DIR
+boost_chrono_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_filesystem_DIR
 boost_filesystem_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_headers_DIR
 boost_headers_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_log_DIR
+boost_log_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_log_setup_DIR
+boost_log_setup_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_system_DIR
 boost_system_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_thread_DIR
+boost_thread_DIR-ADVANCED:INTERNAL=1
 

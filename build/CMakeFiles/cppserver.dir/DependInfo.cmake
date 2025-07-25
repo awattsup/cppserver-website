@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/Users/00088350/Desktop/cppserver/cppserver-website/main.cpp" "CMakeFiles/cppserver.dir/main.cpp.o" "gcc" "CMakeFiles/cppserver.dir/main.cpp.o.d"
   "/Users/00088350/Desktop/cppserver/cppserver-website/src/database.cpp" "CMakeFiles/cppserver.dir/src/database.cpp.o" "gcc" "CMakeFiles/cppserver.dir/src/database.cpp.o.d"
   "/Users/00088350/Desktop/cppserver/cppserver-website/src/devices.cpp" "CMakeFiles/cppserver.dir/src/devices.cpp.o" "gcc" "CMakeFiles/cppserver.dir/src/devices.cpp.o.d"
   )

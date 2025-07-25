@@ -5,8 +5,8 @@
 #include <cstdlib>
 #include <boost/filesystem.hpp>
 
-#include "database.h"
-#include "devices.h"
+#include "database.hpp"
+#include "devices.hpp"
 
 
 void sendFile(crow::response& res, std::string filename, std::string contentType){
@@ -46,16 +46,25 @@ int main()
 {
     crow::SimpleApp app;
 
+    //innitialize the database and devicelist
+    BrewDatabase brewDatabase;
+    DeviceList deviceList;
 
 
-
-    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)([](const crow::request& req){
-        auto body = req.body;
-        std::ofstream ofs("data.json", std::ios::app);
-        ofs << body << std::endl;
-        return crow::response(200, "Data received");
-    });
-
+    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)(
+        [](const crow::request& req){
+            try {
+                auto body = req.body;
+                std::ofstream ofs("data.json", std::ios::app);
+                ofs << body << std::endl;
+                return crow::response(200, "Data received");
+            } catch (const std::exception& e) {
+                // Log error
+                std::cerr << "Error: " << e.what() << std::endl;
+                return crow::response(500, "Server error");
+            }
+        }
+    );
 
 
     CROW_ROUTE(app, "/styles/<string>")(

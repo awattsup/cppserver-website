@@ -1,7 +1,9 @@
 #pragma once
-#include <string>
+
 #include <map>
-#include <json/json.h>
+#include <string>
+#include <json/json.h> // JsonCpp library header
+
 
 class Brew {
 private:
@@ -17,6 +19,8 @@ private:
     std::string hydrometerLog = std::to_string(brewID) + "_" + brewName + "_hydromlog.json"; // Log of hydrometer readings
 public:
     Brew();
+
+    void processData(const std::string& data);
 
     // Getters
     int getBrewID() const;
@@ -41,31 +45,28 @@ public:
     void setBrewStatus(const std::string& status);
 
     // JSON serialization
-    Json::Value toJson() const;
-    void fromJson(const Json::Value& val);
+    Json::Value toBrewJSON() const;
+    void fromBrewJSON(const Json::Value& val);
 };
 
 class BrewDatabase {
 private:
     std::map<int, Brew> brews; // Map to store Brew objects
     std::string databaseFilename = "brewDatabase.json"; // Default log file name
+    int nBrews = brews.size(); // Number of brews in the database
 public:
     BrewDatabase();
 
-    void addBrew(const Brew& brew);
-    Brew* getBrew(int id);
+    void addBrew(Brew& brew) ;
+    Brew getBrew(int id) const;
     void removeBrew(int id);
     size_t size() const;
 
     // Persistence
-    void saveToFile() const;
-    void loadFromFile();
+    void saveDatabaseFile() const;
+    void loadDatabaseFile();
 
     // JSON serialization
-    Json::Value toJson() const;
-    void fromJson(const Json::Value& root);
-
-private:
-    std::map<int, Brew> brews;
-    std::string databaseFilename;
+    Json::Value toDatabaseJSON() const;
+    void fromDatabaseJSON(const Json::Value& root);
 };

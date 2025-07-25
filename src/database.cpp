@@ -1,8 +1,5 @@
 #include <cstdlib>
-#include <string>
-#include <iofstream>
-#include <json/json.h> // JsonCpp library header
-
+#include <fstream>
 #include <boost/log/trivial.hpp>
 
 #include "database.hpp"
@@ -21,7 +18,7 @@ void Brew::processData(const std::string& data) {
 
 
 Json::Value Brew::toBrewJSON() const {
-    JSON::Value brewJSON;
+    Json::Value brewJSON;
     brewJSON["brewID"] = brewID;
     brewJSON["brewName"] = brewName;
     brewJSON["brewType"] = brewType;
@@ -34,7 +31,7 @@ Json::Value Brew::toBrewJSON() const {
     return brewJSON;
 }
 
-void Brew::fromBrewJSON(const JSON::Value& brewJSON) {
+void Brew::fromBrewJSON(const Json::Value& brewJSON) {
     brewID = brewJSON["brewID"].asInt();
     brewName = brewJSON["brewName"].asString();
     brewType = brewJSON["brewType"].asString();
@@ -124,8 +121,8 @@ std::string Brew::getBrewStatus() const {
 
 
 BrewDatabase::BrewDatabase()  {
-    if std::filesystem::exists(databaseFilename) {
-        loadBrewDatabase();
+    if (std::filesystem::exists(databaseFilename)) {
+        loadDatabaseFile();
     } else {
         BOOST_LOG_TRIVIAL(info) << "Brew database file not found, starting with an empty database.";
         std::ofstream outputFile(databaseFilename);
@@ -134,8 +131,7 @@ BrewDatabase::BrewDatabase()  {
     }
 } 
 
-void BrewDatabase::addBrew(const Brew& brew) {
-    nBrews = brews.size();
+void BrewDatabase::addBrew( Brew& brew)  {
     brew.setBrewID(nBrews + 1); // Assign a new ID
     brews[nBrews + 1] = brew;
 }
@@ -156,7 +152,7 @@ void BrewDatabase::removeBrew(int brewID) {
 
 // Serialize the map to JSON
 Json::Value BrewDatabase::toDatabaseJSON() const {
-    JSON::Value root(JSON::objectValue);
+    Json::Value root(Json::objectValue);
     for (const auto& [id, brew] : brews) {
         root[std::to_string(id)] = brew.toBrewJSON();
     }
@@ -164,7 +160,7 @@ Json::Value BrewDatabase::toDatabaseJSON() const {
 }
 
 // Deserialize the map from JSON
-void BrewDatabase::fromDatabaseJSON(const JSON::Value& root) {
+void BrewDatabase::fromDatabaseJSON(const Json::Value& root) {
     brews.clear();
     for (const auto& key : root.getMemberNames()) {
         Brew brew;
@@ -176,28 +172,24 @@ void BrewDatabase::fromDatabaseJSON(const JSON::Value& root) {
 
 
 // Save to file
-void BrewDatabase::saveDatabase() const {
+void BrewDatabase::saveDatabaseFile() const {
     std::ofstream file(databaseFilename);
     if (file.is_open()) {
-        JSON::StreamWriterBuilder writer;
-        file << JSON::writeString(writer, toDatabaseJSON());
+        Json::StreamWriterBuilder writer;
+        file << Json::writeString(writer, toDatabaseJSON());
         file.close();
     }
 }
 
 // Load from file
-void BrewDatabase::loadDatabase() {
+void BrewDatabase::loadDatabaseFile() {
     std::ifstream file(databaseFilename);
     if (file.is_open()) {
-        JSON::Value root;
-        JSON::CharReaderBuilder reader;
+        Json::Value root;
+        Json::CharReaderBuilder reader;
         std::string errs;
-        bool ok = JSON::parseFromStream(reader, file, &root, &errs);
+        bool ok = Json::parseFromStream(reader, file, &root, &errs);
         if (ok) fromDatabaseJSON(root);
         file.close();
     }
 }
-
-        
-
-};

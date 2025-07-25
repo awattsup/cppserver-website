@@ -1,21 +1,33 @@
 #include <cstdlib>
-#include <string>
 #include <cmath>
 
-#include <json/json.h>
+#include "devices.hpp"
 
-#include 'devices.hpp'
 
-#include <map>
-#include <memory>
+Device::Device() = default; // Default constructor
+
+Device::~Device() = default; // Default destructor
+
+
+void Device::setDeviceId(const std::string& id){
+    deviceID = id;
+};
+
+std::string Device::getDeviceId() const{
+    return deviceID;
+};
+
+std::string Device::getStatusFileName() const{
+    return statusfileName;
+};
+
 
 
 
 iSpindle::iSpindle() = default; //TODO add constructor to initialize iSpindle data
 
-
 // Deserialize the iSpindle data from JSON
-void iSpindle::fromDeviceJSON(const JSON::Value& deviceJSON) {
+void iSpindle::fromDeviceJSON(const Json::Value& deviceJSON) {
     deviceID = deviceJSON["deviceId"].asString();
     temperature = deviceJSON["temperature"].asDouble();
     gravity = deviceJSON["gravity"].asDouble();
@@ -30,8 +42,8 @@ void iSpindle::fromDeviceJSON(const JSON::Value& deviceJSON) {
 
 
 // Serialize the iSpindle data to JSON
-void iSpindle::toDeviceJSON() {
-    JSON::Value deviceJSON;
+Json::Value iSpindle::toDeviceJSON() const {
+    Json::Value deviceJSON;
     deviceJSON["deviceId"] = deviceID;
     deviceJSON["temperature"] = temperature;
     deviceJSON["gravity"] = gravity;
@@ -66,7 +78,7 @@ void iSpindle::setAngle(double ang) {
     angle = ang;
 }   
 
-void iSpindle::etBatteryVoltage(double voltage) {
+void iSpindle::setBatteryVoltage(double voltage) {
     batteryVoltage = voltage;
 }
 
@@ -122,8 +134,9 @@ int iSpindle::getAssignedBrewId() const {
 
 
 
-DeviceList::DeviceList() {
+DeviceList::DeviceList(){
     // Construct with just an empty map}
+}
 
 // Add a device (takes ownership)
 void DeviceList::addDevice(std::unique_ptr<Device> device) {

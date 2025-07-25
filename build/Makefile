@@ -129,6 +129,30 @@ cppserver/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/build
 .PHONY : cppserver/fast
 
+main.o: main.cpp.o
+.PHONY : main.o
+
+# target to build an object file
+main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.o
+.PHONY : main.cpp.o
+
+main.i: main.cpp.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.i
+.PHONY : main.cpp.i
+
+main.s: main.cpp.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/main.cpp.s
+.PHONY : main.cpp.s
+
 src/database.o: src/database.cpp.o
 .PHONY : src/database.o
 
@@ -186,6 +210,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... cppserver"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... src/database.o"
 	@echo "... src/database.i"
 	@echo "... src/database.s"
