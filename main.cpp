@@ -5,6 +5,9 @@
 #include <cstdlib>
 #include <boost/filesystem.hpp>
 
+#include "database.h"
+#include "devices.h"
+
 
 void sendFile(crow::response& res, std::string filename, std::string contentType){
     std::ifstream in("./public/" + filename, std::ifstream::in);
@@ -42,6 +45,9 @@ void sendStyle(crow::response& res, std::string filename){
 int main()
 {
     crow::SimpleApp app;
+
+
+
 
     CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)([](const crow::request& req){
         auto body = req.body;
