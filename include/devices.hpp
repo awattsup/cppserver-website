@@ -7,19 +7,18 @@
 
 class Device {
 protected:
-    std::string deviceID;
-    std::string statusfileName = deviceID + "_status.json"; // Default status file name
+    std::string deviceName;
+    int deviceID;
+    std::string statusfileName = deviceName + "_status.json"; // Default status file name
+    int RSSI; // Received Signal Strength Indicator
 public:
     Device();
     virtual ~Device();
-
-    virtual void setDeviceId(const std::string& id);
-    virtual std::string getDeviceId() const;
+    virtual void setDeviceName(const std::string& name);
+    virtual std::string getDeviceName() const;
+    virtual void setDeviceID(const int& id);
+    virtual int getDeviceID() const;
     virtual std::string getStatusFileName() const;
-
-    // // JSON serialization
-    // virtual Json::Value toJson() const = 0;
-    // virtual void fromJson(const Json::Value& val) = 0;
 };
 
 class iSpindle : public Device {
@@ -43,6 +42,7 @@ public:
     void setBatteryVoltage(double voltage);
     void setCalibCoeffs(const double coeffs[4]);
     void setCalibGravity(double calibGrav, const double calibCoeffs[4]);
+    void setRSSI(int rssi);
     void setAssignedBrewId(int brewId);
 
     // Getters
@@ -52,11 +52,16 @@ public:
     double getBatteryVoltage() const;
     double getCalibGravity() const;
     double getCalibCoeffs(int index) const;
+    int getRSSI() const;
     int getAssignedBrewId() const;
 
     // JSON serialization
-    Json::Value toDeviceJSON() const ;
-    void fromDeviceJSON(const Json::Value& val) ;
+    Json::Value toStatusfileJSON() const ;
+    void fromStatusfileJSON(const Json::Value& val) ;
+
+    //file IO
+    void saveStatusfile() const;
+    void loadStatusfile();
 
 };
 

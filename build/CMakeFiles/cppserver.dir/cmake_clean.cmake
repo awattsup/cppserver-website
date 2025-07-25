@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/cppserver.dir/src/database.cpp.o.d"
   "CMakeFiles/cppserver.dir/src/devices.cpp.o"
   "CMakeFiles/cppserver.dir/src/devices.cpp.o.d"
+  "CMakeFiles/cppserver.dir/src/httpdatahandler.cpp.o"
+  "CMakeFiles/cppserver.dir/src/httpdatahandler.cpp.o.d"
   "cppserver"
   "cppserver.pdb"
 )

@@ -201,6 +201,30 @@ src/devices.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/devices.cpp.s
 .PHONY : src/devices.cpp.s
 
+src/httpdatahandler.o: src/httpdatahandler.cpp.o
+.PHONY : src/httpdatahandler.o
+
+# target to build an object file
+src/httpdatahandler.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/httpdatahandler.cpp.o
+.PHONY : src/httpdatahandler.cpp.o
+
+src/httpdatahandler.i: src/httpdatahandler.cpp.i
+.PHONY : src/httpdatahandler.i
+
+# target to preprocess a source file
+src/httpdatahandler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/httpdatahandler.cpp.i
+.PHONY : src/httpdatahandler.cpp.i
+
+src/httpdatahandler.s: src/httpdatahandler.cpp.s
+.PHONY : src/httpdatahandler.s
+
+# target to generate assembly for a file
+src/httpdatahandler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cppserver.dir/build.make CMakeFiles/cppserver.dir/src/httpdatahandler.cpp.s
+.PHONY : src/httpdatahandler.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,6 +243,9 @@ help:
 	@echo "... src/devices.o"
 	@echo "... src/devices.i"
 	@echo "... src/devices.s"
+	@echo "... src/httpdatahandler.o"
+	@echo "... src/httpdatahandler.i"
+	@echo "... src/httpdatahandler.s"
 .PHONY : help
 
 

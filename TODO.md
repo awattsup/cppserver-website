@@ -11,8 +11,11 @@
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
 - [ ] Refactor device class hierarchy for extensibility
+- [ ] Populate website side of the codebase
 
 ## Completed
+- [x] Modified CROW post route to take in device list and device JSON data
+- [x] Verified data receiving on 
 - [x] Add JSON serialization/deserialization for devices
 - [x] Add basic getters/setters for device attributes
 - [x] Implement `DeviceList` to manage devices

@@ -8,6 +8,20 @@
 #include "database.hpp"
 #include "devices.hpp"
 
+#include <json/json.h> // JsonCpp library header
+
+
+
+// void processPOSTData(const Json::Value& jsonData, DeviceList* deviceList) {
+    
+//     std::cout << jsonData << std::endl;
+
+// }
+
+void processPOSTData(const Json::Value& postJSON, DeviceList& dl) {
+           std::cout << postJSON["temp"] << std::endl;
+}
+
 
 void sendFile(crow::response& res, std::string filename, std::string contentType){
     std::ifstream in("./public/" + filename, std::ifstream::in);
@@ -51,21 +65,37 @@ int main()
     DeviceList deviceList;
 
 
-    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)(
-        [](const crow::request& req){
-            try {
-                auto body = req.body;
-                std::ofstream ofs("data.json", std::ios::app);
-                ofs << body << std::endl;
-                return crow::response(200, "Data received");
+    // CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)(
+    //     [&deviceList](const crow::request& req){
+    //         try {
+    //             Json::Value test = req.body;
+    //             processPOSTData(test, deviceList);
+    //             // std::ofstream ofs("data.json", std::ios::app);
+    //             // ofs << body << std::endl;
+    //             return crow::response(200, "Data received");
+    //         } catch (const std::exception& e) {
+    //             // Log error
+    //             std::cerr << "Error: " << e.what() << std::endl;
+    //             return crow::response(500, "Server error");
+    //         }
+    //     }
+    // );
+
+
+
+    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)([&deviceList](const crow::request& req) {
+        try {   
+            Json::Reader reader;
+            Json::Value postJSON;
+            bool ok = reader.parse(req.body, postJSON);
+            if (ok) processPOSTData(postJSON, deviceList);
+            return crow::response(200, "Data received");
             } catch (const std::exception& e) {
                 // Log error
                 std::cerr << "Error: " << e.what() << std::endl;
                 return crow::response(500, "Server error");
             }
-        }
-    );
-
+    });
 
     CROW_ROUTE(app, "/styles/<string>")(
         [](const crow::request& req, crow::response& res, std::string filename){

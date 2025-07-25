@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cmath>
+#include <fstream>
 
 #include "devices.hpp"
 
@@ -9,11 +10,19 @@ Device::Device() = default; // Default constructor
 Device::~Device() = default; // Default destructor
 
 
-void Device::setDeviceId(const std::string& id){
+void Device::setDeviceName(const std::string& name){
+    deviceName = name;
+};
+
+std::string Device::getDeviceName() const{
+    return deviceName;
+};
+
+void Device::setDeviceID(const int& id){
     deviceID = id;
 };
 
-std::string Device::getDeviceId() const{
+int Device::getDeviceID() const{
     return deviceID;
 };
 
@@ -26,35 +35,63 @@ std::string Device::getStatusFileName() const{
 
 iSpindle::iSpindle() = default; //TODO add constructor to initialize iSpindle data
 
-// Deserialize the iSpindle data from JSON
-void iSpindle::fromDeviceJSON(const Json::Value& deviceJSON) {
-    deviceID = deviceJSON["deviceId"].asString();
-    temperature = deviceJSON["temperature"].asDouble();
-    gravity = deviceJSON["gravity"].asDouble();
-    angle = deviceJSON["angle"].asDouble();
-    batteryVoltage = deviceJSON["batteryVoltage"].asDouble();
-    calibGravity = deviceJSON["calibGravity"].asDouble();
-    assignedBrewId = deviceJSON["assignedBrewId"].asInt(); 
+// Deserialize the iSpindle data from JSON 
+void iSpindle::fromStatusfileJSON(const Json::Value& statusJSON) {
+    deviceName = statusJSON["deviceName"].asString();
+    temperature = statusJSON["temperature"].asDouble();
+    gravity = statusJSON["gravity"].asDouble();
+    angle = statusJSON["angle"].asDouble();
+    batteryVoltage = statusJSON["batteryVoltage"].asDouble();
+    calibGravity = statusJSON["calibGravity"].asDouble();
+    RSSI = statusJSON["RSSI"].asInt();
+    assignedBrewId = statusJSON["assignedBrewId"].asInt(); 
     for (int i = 0; i <= 3; i++) {
-        calibCoeffs[i] = deviceJSON["calibCoeffs"][i].asDouble();
+        calibCoeffs[i] = statusJSON["calibCoeffs"][i].asDouble();
     }
 }
 
 
 // Serialize the iSpindle data to JSON
-Json::Value iSpindle::toDeviceJSON() const {
-    Json::Value deviceJSON;
-    deviceJSON["deviceId"] = deviceID;
-    deviceJSON["temperature"] = temperature;
-    deviceJSON["gravity"] = gravity;
-    deviceJSON["angle"] = angle;
-    deviceJSON["batteryVoltage"] = batteryVoltage;
-    deviceJSON["calibGravity"] = calibGravity;
-    deviceJSON["assignedBrewId"] = assignedBrewId;
+Json::Value iSpindle::toStatusfileJSON() const {
+    Json::Value statusJSON;
+    statusJSON["deviceName"] = deviceName;
+    statusJSON["temperature"] = temperature;
+    statusJSON["gravity"] = gravity;
+    statusJSON["angle"] = angle;
+    statusJSON["batteryVoltage"] = batteryVoltage;
+    statusJSON["calibGravity"] = calibGravity;
+    statusJSON["assignedBrewId"] = assignedBrewId;
     for (int i = 0; i <= 3; i++) {
-        deviceJSON["calibCoeffs"][i] = calibCoeffs[i];
+        statusJSON["calibCoeffs"][i] = calibCoeffs[i];
     }
-    return deviceJSON;
+    return statusJSON;
+}
+
+
+
+// iSpindle status file IO
+
+// Save to file
+void iSpindle::saveStatusfile() const {
+    std::ofstream file(statusfileName);
+    if (file.is_open()) {
+        Json::StreamWriterBuilder writer;
+        file << Json::writeString(writer, toStatusfileJSON());
+        file.close();
+    }
+}
+
+// Load from file
+void iSpindle::loadStatusfile() {
+    std::ifstream file(statusfileName);
+    if (file.is_open()) {
+        Json::Value root;
+        Json::CharReaderBuilder reader;
+        std::string errs;
+        bool ok = Json::parseFromStream(reader, file, &root, &errs);
+        if (ok) fromStatusfileJSON(root);
+        file.close();
+    }
 }
 
 
@@ -95,6 +132,10 @@ void iSpindle::setCalibGravity(double calibGrav, const double calibCoeffs[4]) {
     };
 }
 
+void iSpindle::setRSSI(int rssi) {
+    RSSI = rssi;
+}
+
 void iSpindle::setAssignedBrewId(int brewId) {
     assignedBrewId = brewId;
 }
@@ -126,6 +167,10 @@ double iSpindle::getCalibCoeffs(int index) const {
     return calibCoeffs[index];
 }
 
+int iSpindle::getRSSI() const {
+    return RSSI;
+}
+
 int iSpindle::getAssignedBrewId() const {
     return assignedBrewId;
 }
@@ -140,7 +185,7 @@ DeviceList::DeviceList(){
 
 // Add a device (takes ownership)
 void DeviceList::addDevice(std::unique_ptr<Device> device) {
-    devices[device->getDeviceId()] = std::move(device);
+    devices[device->getDeviceName()] = std::move(device);
 }
 
 // Get a device by ID (nullptr if not found)
