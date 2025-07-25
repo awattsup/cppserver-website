@@ -32,30 +32,30 @@ public:
     }
 
 
-    Json::Value toJson() const {
-        JSON::Value jsonBrew;
-        jsonBrew["brewID"] = brewID;
-        jsonBrew["brewName"] = brewName;
-        jsonBrew["brewType"] = brewType;
-        jsonBrew["brewDate"] = brewDate;
-        jsonBrew["brewStatus"] = brewStatus;
-        jsonBrew["IG"] = IG;
-        jsonBrew["FG"] = FG;
-        jsonBrew["volume"] = volume;
-        jsonBrew["ABV"] = ABV;
-        return jsonBrew;
+    Json::Value toBrewJSON() const {
+        JSON::Value brewJSON;
+        brewJSON["brewID"] = brewID;
+        brewJSON["brewName"] = brewName;
+        brewJSON["brewType"] = brewType;
+        brewJSON["brewDate"] = brewDate;
+        brewJSON["brewStatus"] = brewStatus;
+        brewJSON["IG"] = IG;
+        brewJSON["FG"] = FG;
+        brewJSON["volume"] = volume;
+        brewJSON["ABV"] = ABV;
+        return brewJSON;
     }
 
-    void fromJson(const JSON::Value& jsonBrew) {
-        brewID = jsonBrew["brewID"].asInt();
-        brewName = jsonBrew["brewName"].asString();
-        brewType = jsonBrew["brewType"].asString();
-        brewDate = jsonBrew["brewDate"].asString();
-        brewStatus = jsonBrew["brewStatus"].asString();
-        IG = jsonBrew["IG"].asDouble();
-        FG = jsonBrew["FG"].asDouble();
-        volume = jsonBrew["volume"].asDouble();
-        ABV = jsonBrew["ABV"].asDouble();
+    void fromBrewJSON(const JSON::Value& brewJSON) {
+        brewID = brewJSON["brewID"].asInt();
+        brewName = brewJSON["brewName"].asString();
+        brewType = brewJSON["brewType"].asString();
+        brewDate = brewJSON["brewDate"].asString();
+        brewStatus = brewJSON["brewStatus"].asString();
+        IG = brewJSON["IG"].asDouble();
+        FG = brewJSON["FG"].asDouble();
+        volume = brewJSON["volume"].asDouble();
+        ABV = brewJSON["ABV"].asDouble();
     }
 
 
@@ -181,20 +181,20 @@ public:
 
     
     // Serialize the map to JSON
-    Json::Value toJson() const {
+    Json::Value toDatabaseJSON() const {
         JSON::Value root(JSON::objectValue);
         for (const auto& [id, brew] : brews) {
-            root[std::to_string(id)] = brew.toJson();
+            root[std::to_string(id)] = brew.toBrewJSON();
         }
         return root;
     }
 
     // Deserialize the map from JSON
-    void fromJson(const JSON::Value& root) {
+    void fromDatabaseJSON(const JSON::Value& root) {
         brews.clear();
         for (const auto& key : root.getMemberNames()) {
             Brew brew;
-            brew.fromJson(root[key]);
+            brew.fromBrewJSON(root[key]);
             int id = brew.getBrewID();
             brews[id] = brew;
         }
@@ -202,24 +202,24 @@ public:
 
 
     // Save to file
-    void saveBrewDatabase() const {
+    void saveDatabase() const {
         std::ofstream file(databaseFilename);
         if (file.is_open()) {
             JSON::StreamWriterBuilder writer;
-            file << JSON::writeString(writer, toJson());
+            file << JSON::writeString(writer, toDatabaseJSON());
             file.close();
         }
     }
 
     // Load from file
-    void loadBrewDatabase() {
+    void loadDatabase() {
         std::ifstream file(databaseFilename);
         if (file.is_open()) {
             JSON::Value root;
             JSON::CharReaderBuilder reader;
             std::string errs;
             bool ok = JSON::parseFromStream(reader, file, &root, &errs);
-            if (ok) fromJson(root);
+            if (ok) fromDatabaseJSON(root);
             file.close();
         }
     }

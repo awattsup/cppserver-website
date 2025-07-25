@@ -1,17 +1,6 @@
 # TODO
 
-## Completed
-- [x] Set up CROW C++ web server
-- [x] Serve static HTML/CSS/JS from `public/`
-- [x] Implement POST endpoint to receive JSON data
-- [x] Store received data locally
-- [x] Organize code into `src/` and `include/` directories
-- [x] Implement base `Device` class and `iSpindle` derived class
-- [x] Implement `DeviceList` to manage devices
-- [x] Add basic getters/setters for device attributes
-
 ## In Progress
-- [ ] Add JSON serialization/deserialization for devices
 - [ ] Add endpoint to dynamically add devices from POST data
 
 ## Planned
@@ -22,3 +11,17 @@
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
 - [ ] Refactor device class hierarchy for extensibility
+
+## Completed
+- [x] Add JSON serialization/deserialization for devices
+- [x] Add basic getters/setters for device attributes
+- [x] Implement `DeviceList` to manage devices
+- [x] Serve static HTML/CSS/JS from `public/`
+- [x] Implement base `Device` class and `iSpindle` derived class
+- [x] Organize code into `src/` and `include/` directories
+- [x] Store received data locally
+- [x] Implement POST endpoint to receive JSON data
+- [x] Set up CROW C++ web server
+
+
+

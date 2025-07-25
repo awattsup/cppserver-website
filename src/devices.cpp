@@ -2,7 +2,7 @@
 #include <string>
 #include <cmath>
 
-
+#include <json/json.h>
 
 #include <map>
 #include <memory>
@@ -45,7 +45,39 @@ private:
 public:
     iSpindle() = default; //TODO add constructor to initialize iSpindle data
 
-    //TODO add JSON serialization methods
+
+    // Deserialize the iSpindle data from JSON
+    void fromDeviceJSON(const JSON::Value& deviceJSON) {
+        deviceID = deviceJSON["deviceId"].asString();
+        temperature = deviceJSON["temperature"].asDouble();
+        gravity = deviceJSON["gravity"].asDouble();
+        angle = deviceJSON["angle"].asDouble();
+        batteryVoltage = deviceJSON["batteryVoltage"].asDouble();
+        calibGravity = deviceJSON["calibGravity"].asDouble();
+        assignedBrewId = deviceJSON["assignedBrewId"].asInt(); 
+        for (int i = 0; i <= 3; i++) {
+            calibCoeffs[i] = deviceJSON["calibCoeffs"][i].asDouble();
+        }
+    }
+
+
+    // Serialize the iSpindle data to JSON
+    void toDeviceJSON() {
+        JSON::Value deviceJSON;
+        deviceJSON["deviceId"] = deviceID;
+        deviceJSON["temperature"] = temperature;
+        deviceJSON["gravity"] = gravity;
+        deviceJSON["angle"] = angle;
+        deviceJSON["batteryVoltage"] = batteryVoltage;
+        deviceJSON["calibGravity"] = calibGravity;
+        deviceJSON["assignedBrewId"] = assignedBrewId;
+        for (int i = 0; i <= 3; i++) {
+            deviceJSON["calibCoeffs"][i] = calibCoeffs[i];
+        }
+        return deviceJSON;
+    }
+
+
 
     // Add methods to handle iSpindle data
     void processData(const std::string& data) {
