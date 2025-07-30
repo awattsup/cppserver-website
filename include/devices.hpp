@@ -9,7 +9,7 @@ class Device {
 protected:
     std::string deviceName;
     int deviceID;
-    std::string statusfileName = deviceName + "_status.json"; // Default status file name
+    std::string statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Default status file name
     int RSSI; // Received Signal Strength Indicator
 public:
     Device();
@@ -33,7 +33,7 @@ private:
 public:
     iSpindle();
 
-    void processData(const std::string& data);
+    void updateDataFromPOST(const Json::Value& postJSON);
 
     // Setters
     void setTemperature(double temp);
@@ -41,7 +41,7 @@ public:
     void setAngle(double ang);
     void setBatteryVoltage(double voltage);
     void setCalibCoeffs(const double coeffs[4]);
-    void setCalibGravity(double calibGrav, const double calibCoeffs[4]);
+    void computeCalibGravity();
     void setRSSI(int rssi);
     void setAssignedBrewId(int brewId);
 

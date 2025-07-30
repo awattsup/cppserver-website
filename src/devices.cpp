@@ -33,7 +33,10 @@ std::string Device::getStatusFileName() const{
 
 
 
-iSpindle::iSpindle() = default; //TODO add constructor to initialize iSpindle data
+iSpindle::iSpindle() = default; //TODO add constructor to initialize iSpindle from status file
+// iSpindle::iSpindle(std::string statusfilePath) = default; //TODO add constructor to initialize iSpindle from status file
+// iSpindle::iSpindle(Json::value postJSON ) = default;//TODO add constructor to initialize iSpindle from postJSON
+
 
 // Deserialize the iSpindle data from JSON 
 void iSpindle::fromStatusfileJSON(const Json::Value& statusJSON) {
@@ -97,8 +100,16 @@ void iSpindle::loadStatusfile() {
 
 
 // Add methods to handle iSpindle data
-void iSpindle::processData(const std::string& data) {
-    // Process the incoming data
+void iSpindle::updateDataFromPOST(const Json::Value& postJSON) {
+    // Update iSpindle with the received POST data
+    temperature = postJSON["temperature"].asDouble();
+    gravity = postJSON["gravity"].asDouble();
+    angle = postJSON["angle"].asDouble();
+    batteryVoltage = postJSON["batteryVoltage"].asDouble();
+    RSSI = postJSON["RSSI"].asInt();
+    computeCalibGravity();
+
+
 }
 
 // Setters and getters for iSpindle data 
@@ -125,7 +136,7 @@ void iSpindle::setCalibCoeffs(const double coeffs[4]) {
     }
 }
 
-void iSpindle::setCalibGravity(double calibGrav, const double calibCoeffs[4]) {
+void iSpindle::computeCalibGravity() {
     calibGravity = 0; 
     for (int i = 0; i <= 3; i++) {
         calibGravity += calibCoeffs[i] * pow(angle, i);

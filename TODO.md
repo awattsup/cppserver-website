@@ -1,13 +1,16 @@
 # TODO
 
 ## In Progress
-- [ ] Add endpoint to dynamically add devices from POST data
+- [ ] Add endpoint to dynamically update/add new devices from POST data
+- [ ] Add constructor for loading a device from its status file
+- [ ] Add constructor for making a new device given POST data
 
 ## Planned
+- [ ] Implement update of data logs by devices when POST data is received. 
 - [ ] Implement authentication for POST endpoints
-- [ ] Add web UI for managing devices and brews
-- [ ] REST API for querying device and brew status
-- [ ] Add persistent storage for device and brew databases
+- [ ] Add web UI for managing devices  
+- [ ] REST API for querying device and databse status
+- [ ] Add persistent storage for device and  databases
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
 - [ ] Refactor device class hierarchy for extensibility

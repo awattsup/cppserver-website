@@ -12,15 +12,6 @@
 
 
 
-// void processPOSTData(const Json::Value& jsonData, DeviceList* deviceList) {
-    
-//     std::cout << jsonData << std::endl;
-
-// }
-
-
-
-
 void sendFile(crow::response& res, std::string filename, std::string contentType){
     std::cout << "Sending file: " << filename << std::endl;
     std::cout << "Sending file: " << "./public/" +filename << std::endl;

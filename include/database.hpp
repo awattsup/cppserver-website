@@ -16,7 +16,7 @@ private:
     std::string brewType;
     std::string brewDate;
     std::string brewStatus;
-    std::string hydrometerLog = std::to_string(brewID) + "_" + brewName + "_hydromlog.json"; // Log of hydrometer readings
+    std::string hydrometerLog = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_hydromlog.json"; // Log of hydrometer readings
 public:
     Brew();
 
@@ -52,7 +52,7 @@ public:
 class BrewDatabase {
 private:
     std::map<int, Brew> brews; // Map to store Brew objects
-    std::string databaseFilename = "brewDatabase.json"; // Default log file name
+    std::string databaseFilename = "data/brewDatabase.json"; // Default log file name
     int nBrews = brews.size(); // Number of brews in the database
 public:
     BrewDatabase();
