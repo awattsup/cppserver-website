@@ -14,8 +14,8 @@
 - [ ] Populate website side of the codebase
 
 ## Completed
-- [x] Modified CROW post route to take in device list and device JSON data
-- [x] Verified data receiving on 
+- [x] Modified CROW post route to convert device string to JSON and prototyped processing into separate functions. 
+- [x] Verified data receiving on HTTP POST on local network
 - [x] Add JSON serialization/deserialization for devices
 - [x] Add basic getters/setters for device attributes
 - [x] Implement `DeviceList` to manage devices

@@ -7,10 +7,10 @@
 
 
 
-void processPOSTData(const std::string& jsonData, DeviceList& deviceList) {
-    
-    // std::cout << jsonData << std::endl;
+void processPOSTData(const Json::Value& postJSON, DeviceList& dl) {
+    std::cout << postJSON["temp"] << std::endl;
 
+    
 
 
 

@@ -18,12 +18,13 @@
 
 // }
 
-void processPOSTData(const Json::Value& postJSON, DeviceList& dl) {
-           std::cout << postJSON["temp"] << std::endl;
-}
+
 
 
 void sendFile(crow::response& res, std::string filename, std::string contentType){
+    std::cout << "Sending file: " << filename << std::endl;
+    std::cout << "Sending file: " << "./public/" +filename << std::endl;
+
     std::ifstream in("./public/" + filename, std::ifstream::in);
     if (in){
         std::ostringstream contents;
@@ -40,7 +41,7 @@ void sendFile(crow::response& res, std::string filename, std::string contentType
 }
 
 void sendHtml(crow::response& res, std::string filename){
-    sendFile(res,filename + ".html","text/html");
+    sendFile(res,filename,"text/html");
 }
 
 void sendImage(crow::response& res, std::string filename){
@@ -112,14 +113,19 @@ int main()
         sendImage(res, filename);            
     });
 
-    CROW_ROUTE(app, "/about")(
-        [](const crow::request& req, crow::response& res){
-        sendHtml(res, "about");            
+    CROW_ROUTE(app, "/blog/<path>")(
+        [](const crow::request& req, crow::response& res, std::string path){
+        sendHtml(res, "blog/" + path);           
+    });
+
+    CROW_ROUTE(app, "/about/<path>")(
+        [](const crow::request& req, crow::response& res, std::string path){
+        sendHtml(res, "about/" + path);            
     });
 
     CROW_ROUTE(app, "/")(
         [](const crow::request& req, crow::response& res){
-        sendHtml(res, "index");            
+        sendHtml(res, "index.html");            
     });
 
     char *port = getenv("PORT");
