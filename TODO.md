@@ -1,22 +1,23 @@
 # TODO
 
 ## In Progress
-- [ ] Add endpoint to dynamically update/add new devices from POST data
-- [ ] Add constructor for loading a device from its status file
-- [ ] Add constructor for making a new device given POST data
+- [ ] Implement update of data logs by devices when POST data is received. 
+- [ ] Add web UI for managing devices  
+
 
 ## Planned
-- [ ] Implement update of data logs by devices when POST data is received. 
 - [ ] Implement authentication for POST endpoints
-- [ ] Add web UI for managing devices  
 - [ ] REST API for querying device and databse status
 - [ ] Add persistent storage for device and  databases
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
-- [ ] Refactor device class hierarchy for extensibility
 - [ ] Populate website side of the codebase
 
 ## Completed
+- [x] Add endpoint to dynamically update/add new devices from POST data
+- [x] Refactor device class hierarchy for extensibility
+- [x] Add constructor for loading a device from its status file
+- [x] Add constructor for making a new device given POST data
 - [x] Modified CROW post route to convert device string to JSON and prototyped processing into separate functions. 
 - [x] Verified data receiving on HTTP POST on local network
 - [x] Add JSON serialization/deserialization for devices

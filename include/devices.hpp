@@ -32,6 +32,9 @@ private:
     int assignedBrewId;
 public:
     iSpindle();
+    iSpindle(std::string statusfilePath);
+    iSpindle(Json::Value postJSON);
+
 
     void updateDataFromPOST(const Json::Value& postJSON);
 

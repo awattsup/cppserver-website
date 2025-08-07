@@ -33,9 +33,35 @@ std::string Device::getStatusFileName() const{
 
 
 
-iSpindle::iSpindle() = default; //TODO add constructor to initialize iSpindle from status file
-// iSpindle::iSpindle(std::string statusfilePath) = default; //TODO add constructor to initialize iSpindle from status file
-// iSpindle::iSpindle(Json::value postJSON ) = default;//TODO add constructor to initialize iSpindle from postJSON
+iSpindle::iSpindle() = default;  //TODO Do I need to delete this? probably unused
+
+iSpindle::iSpindle(std::string statusfilePath) {
+    // constructor to initialize iSpindle from status file
+    // Load from file
+    std::ifstream file(statusfileName);
+    if (file.is_open()) {
+        Json::Value root;
+        Json::CharReaderBuilder reader;
+        std::string errs;
+        bool ok = Json::parseFromStream(reader, file, &root, &errs);
+        if (ok) fromStatusfileJSON(root);
+        file.close();
+    }
+    statusfileName = statusfilePath; // Set the status file name
+};
+iSpindle::iSpindle(Json::Value postJSON) {
+    //constructor to initialize iSpindle from postJSON
+    deviceName = postJSON["deviceName"].asString();
+    temperature = postJSON["temperature"].asDouble();
+    gravity = postJSON["gravity"].asDouble();
+    angle = postJSON["angle"].asDouble();
+    batteryVoltage = postJSON["batteryVoltage"].asDouble();
+    RSSI = postJSON["RSSI"].asInt();
+    assignedBrewId = postJSON["assignedBrewId"].asInt(); 
+
+    statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Set the status file name
+
+};
 
 
 // Deserialize the iSpindle data from JSON 

@@ -75,12 +75,12 @@ int main()
 
 
 
-    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)([&deviceList](const crow::request& req) {
+    CROW_ROUTE(app, "/post_data").methods(crow::HTTPMethod::Post)([&deviceList, &brewDatabase](const crow::request& req) {
         try {   
             Json::Reader reader;
             Json::Value postJSON;
             bool ok = reader.parse(req.body, postJSON);
-            if (ok) processPOSTData(postJSON, deviceList);
+            if (ok) processPOSTData(postJSON, deviceList, brewDatabase);
             return crow::response(200, "Data received");
             } catch (const std::exception& e) {
                 // Log error
