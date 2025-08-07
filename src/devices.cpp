@@ -51,13 +51,12 @@ iSpindle::iSpindle(std::string statusfilePath) {
 };
 iSpindle::iSpindle(Json::Value postJSON) {
     //constructor to initialize iSpindle from postJSON
-    deviceName = postJSON["deviceName"].asString();
+    deviceName = postJSON["name"].asString();
     temperature = postJSON["temperature"].asDouble();
     gravity = postJSON["gravity"].asDouble();
     angle = postJSON["angle"].asDouble();
-    batteryVoltage = postJSON["batteryVoltage"].asDouble();
+    batteryVoltage = postJSON["battery"].asDouble();
     RSSI = postJSON["RSSI"].asInt();
-    assignedBrewId = postJSON["assignedBrewId"].asInt(); 
 
     statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Set the status file name
 
@@ -208,7 +207,7 @@ int iSpindle::getRSSI() const {
     return RSSI;
 }
 
-int iSpindle::getAssignedBrewId() const {
+int iSpindle::getAssignedBrewID() const {
     return assignedBrewId;
 }
 
@@ -222,7 +221,7 @@ DeviceList::DeviceList(){
 
 // Add a device (takes ownership)
 void DeviceList::addDevice(std::unique_ptr<Device> device) {
-    devices[device->getDeviceName()] = std::move(device);
+    devices[device->getDeviceID()] = std::move(device);
 }
 
 // Get a device by ID (nullptr if not found)

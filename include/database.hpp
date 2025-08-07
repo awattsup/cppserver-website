@@ -4,7 +4,6 @@
 #include <string>
 #include <json/json.h> // JsonCpp library header
 
-
 class Brew {
 private:
     int brewID;
@@ -16,11 +15,9 @@ private:
     std::string brewType;
     std::string brewDate;
     std::string brewStatus;
-    std::string hydrometerLog = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_hydromlog.json"; // Log of hydrometer readings
+    std::string hydrometerLog = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_hydromlog.dat"; // Log of hydrometer readings
 public:
     Brew();
-
-    void processData(const std::string& data);
 
     // Getters
     int getBrewID() const;
@@ -47,6 +44,10 @@ public:
     // JSON serialization
     Json::Value toBrewJSON() const;
     void fromBrewJSON(const Json::Value& val);
+
+    // Device log management
+    // void updateBrewDataLog();
+
 };
 
 class BrewDatabase {

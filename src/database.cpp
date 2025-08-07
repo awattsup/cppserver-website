@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <fstream>
+#include <ctime>
 #include <boost/log/trivial.hpp>
 
 #include "database.hpp"
@@ -43,6 +44,24 @@ void Brew::fromBrewJSON(const Json::Value& brewJSON) {
     ABV = brewJSON["ABV"].asDouble();
 }
 
+
+void Brew::updateBrewDataLog(Device* device) {
+    // Update the brew log with device data
+    
+    auto t = std::time(nullptr);      // TODO put this in a function?
+    auto tm = *std::localtime(&t);
+    std::string timeDate = std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+    
+    std::string dataString = timeDate + ',' +
+                            std::to_string(device->getTemperature()) + ',' +
+                            std::to_string(device->getGravity()) + ',' +
+                            std::to_string(device->getBatteryVoltage()) + ',' +
+                            std::to_string(device->getRSSI()) + '\n';
+    // Write to the hydrometer log file
+    std::ofstream logFile(hydrometerLog, std::ios::app);
+    if (logFile.is_open()) 
+        logFile << dataString;
+}
 
 // Setters and getters for brew data
 void Brew::setBrewID(int id) {

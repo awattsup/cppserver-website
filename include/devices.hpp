@@ -29,7 +29,7 @@ private:
     double batteryVoltage;
     double calibCoeffs[4];
     double calibGravity;
-    int assignedBrewId;
+    int assignedBrewID = -1; // Default to -1 if not assigned
 public:
     iSpindle();
     iSpindle(std::string statusfilePath);
@@ -46,7 +46,7 @@ public:
     void setCalibCoeffs(const double coeffs[4]);
     void computeCalibGravity();
     void setRSSI(int rssi);
-    void setAssignedBrewId(int brewId);
+    void setAssignedBrewID(int brewId);
 
     // Getters
     double getTemperature() const;
@@ -56,7 +56,7 @@ public:
     double getCalibGravity() const;
     double getCalibCoeffs(int index) const;
     int getRSSI() const;
-    int getAssignedBrewId() const;
+    int getAssignedBrewID() const;
 
     // JSON serialization
     Json::Value toStatusfileJSON() const ;

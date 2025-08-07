@@ -36,16 +36,27 @@ void processPOSTData(const Json::Value& postJSON, DeviceList& deviceList, BrewDa
         BOOST_LOG_TRIVIAL(info) << "Device " << deviceName << " created from POST data.";
     }
 
-    if device.getAssignedBrewId() != -1) {
+    if (device->getAssignedBrewID() != -1) {
+        // Device-indepdent logging logic
+        // Example: data/logs/{brewID}_{brewName}_{logType}_{deviceID}.log
+        int brewID = device->getAssignedBrewID();
+        Brew& brew = brewDatabase[brewID];
+        std::string logType = "hydrometer"; // or device->getLogType() if implemented.   //TODO change to device type attribute
+        std::string logFilename = "data/logs/" + std::to_string(brewID) + "_" + brew.getBrewName() + "_" + logType + "_" + std::to_string(device->getDeviceID()) + ".log";
 
-    
-
-
-
-
-}
-
-
-
+        // Prepare log data (CSV or JSON as needed)
+        //TODO implement device methods for producing log data
+        std::ofstream logFile(logFilename, std::ios::app);
+        if (logFile.is_open()) {
+            logFile << device->getTemperature() << ","
+                    << device->getGravity() << ","
+                    << device->getBatteryVoltage() << ","
+                    << device->getRSSI() << std::endl;
+            logFile.close();
+        }
+        BOOST_LOG_TRIVIAL(info) << "Logged data for device " << deviceName << " to " << logFilename;
+    } else {
+        BOOST_LOG_TRIVIAL(info) << "Device " << deviceName << " is not assigned to any brew, no logs updated.";
+    }
 
 
