@@ -3,27 +3,38 @@
 #include <map>
 #include <memory>
 #include <json/json.h>
+#include <chrono>
+#include <format>
+
 
 
 class Device {
 protected:
     std::string deviceName;
     int deviceID;
-    std::string statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Default status file name
+    std::string statusfileName; // Default status file name
     int RSSI; // Received Signal Strength Indicator
-    std::string deviceType; // Type of device, e.g. iSpindle. 
+    std::string deviceType; // Type of device, e.g. hydrometer. 
+    int assignedBrewID = -1; // Default to -1 if not assigned
 public:
     Device();
     virtual ~Device();
 
-    virtual std::string getTimeDate() const;
+    virtual std::string getLogData() const = 0;
+    virtual void updateDataFromPOST(const Json::Value& postJSON) = 0; // Pure virtual function to update device data from POST JSON
 
     virtual void setDeviceName(const std::string& name);
     virtual void setDeviceID(const int& id);
+    virtual void setAssignedBrewID(int brewID);
+    virtual void setRSSI(int rssi);
 
     virtual std::string getDeviceName() const;
     virtual int getDeviceID() const;
     virtual std::string getStatusFileName() const;
+    virtual int getAssignedBrewID() const;
+    virtual int getRSSI() const;
+    virtual std::string getDeviceType() const;
+
 };
 
 class iSpindle : public Device {
@@ -34,7 +45,7 @@ private:
     double batteryVoltage;
     double calibCoeffs[4];
     double calibGravity;
-    int assignedBrewID = -1; // Default to -1 if not assigned
+
 public:
     iSpindle();
     iSpindle(std::string statusfilePath);
@@ -59,8 +70,6 @@ public:
     void setBatteryVoltage(double voltage);
     void setCalibCoeffs(const double coeffs[4]);
     void computeCalibGravity();
-    void setRSSI(int rssi);
-    void setAssignedBrewID(int brewId);
 
     // Getters
     double getTemperature() const;
@@ -69,8 +78,6 @@ public:
     double getBatteryVoltage() const;
     double getCalibGravity() const;
     double getCalibCoeffs(int index) const;
-    int getRSSI() const;
-    int getAssignedBrewID() const;
 
 
 
@@ -78,13 +85,13 @@ public:
 
 class DeviceList {
 private:
-    std::map<std::string, std::unique_ptr<Device>> devices;
+    std::map<int, std::unique_ptr<Device>> devices;
 public:
     DeviceList();
 
     void addDevice(std::unique_ptr<Device> device);
-    Device* getDevice(const std::string& id) const;
-    void removeDevice(const std::string& id);
+    Device* getDevice(const int id) const;
+    void removeDevice(const int id);
     size_t size() const;
 
     // // JSON serialization
@@ -93,3 +100,7 @@ public:
 
 
 };
+
+
+
+ std::string getTimeDate();

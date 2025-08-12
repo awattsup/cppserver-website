@@ -1,6 +1,5 @@
 #include <cstdlib>
 #include <fstream>
-#include <ctime>
 #include <boost/log/trivial.hpp>
 
 #include "database.hpp"
@@ -12,10 +11,10 @@ Brew::Brew() : brewID(-1), IG(0.0), FG(0.0), ABV(0.0), volume(0.0), brewName("")
         // Constructor implementation
     };
 
-// Add methods to handle brew data
-void Brew::processData(const std::string& data) {
-    // Process the incoming data
-}
+// // Add methods to handle brew data
+// void Brew::processData(const std::string& data) {
+//     // Process the incoming data
+// }
 
 
 Json::Value Brew::toBrewJSON() const {
@@ -46,10 +45,10 @@ void Brew::fromBrewJSON(const Json::Value& brewJSON) {
 
 
 
-    
-void Brew::updateBrewDataLog(const std::string& deviceType, const std::string& logData){
+
+void Brew::updateBrewDataLog(const std::string& deviceType, const std::string& logData) const {
     // Update the brew log with device data
-    logFilename = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_" + deviceType + ".log"
+    std::string logFilename = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_" + deviceType + ".log";
     std::ofstream logFile(logFilename, std::ios::app);
     if (logFile.is_open()) {
         logFile << deviceType << "," << logData << std::endl;

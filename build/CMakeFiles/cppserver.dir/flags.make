@@ -6,7 +6,7 @@ CXX_DEFINES = -DBOOST_ATOMIC_NO_LIB -DBOOST_CHRONO_NO_LIB -DBOOST_FILESYSTEM_NO_
 
 CXX_INCLUDES = -I/Users/00088350/Desktop/cppserver/cppserver-website/include -isystem /opt/homebrew/include
 
-CXX_FLAGSarm64 = -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
+CXX_FLAGSarm64 = -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
 
-CXX_FLAGS = -std=gnu++17 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
+CXX_FLAGS = -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX15.5.sdk
 

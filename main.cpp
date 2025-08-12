@@ -7,6 +7,7 @@
 
 #include "database.hpp"
 #include "devices.hpp"
+#include "httpdatahandler.hpp"
 
 #include <json/json.h> // JsonCpp library header
 

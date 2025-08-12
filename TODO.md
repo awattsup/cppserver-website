@@ -1,21 +1,19 @@
 # TODO
 
 ## In Progress
-
-
-- [ ] Implement device method for returning log data.
-- [ ] Add web UI for managing devices  
+- [ ] Add web UI for managing devices and interacting with database
+- [ ] Add persistent storage for device and  databases
+- [ ] REST API for querying device and databse status
 
 
 ## Planned
 - [ ] Implement authentication for POST endpoints
-- [ ] REST API for querying device and databse status
-- [ ] Add persistent storage for device and  databases
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
 - [ ] Populate website side of the codebase
 
 ## Completed
+- [x] Implement device method for returning log data.
 - [x] Refactor logging so each device assigned to a brew writes to a unique log based off device type)
 - [x] Decouple device and database logging logic: device provides data, handler/database constructs log filename and writes log
 - [x] Add device type attribute

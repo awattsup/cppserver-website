@@ -22,6 +22,14 @@ void Device::setDeviceID(const int& id){
     deviceID = id;
 };
 
+void Device::setRSSI(int rssi) {
+    RSSI = rssi;
+}
+
+void Device::setAssignedBrewID(int brewID) {
+    assignedBrewID = brewID;
+}
+
 int Device::getDeviceID() const{
     return deviceID;
 };
@@ -30,12 +38,20 @@ std::string Device::getStatusFileName() const{
     return statusfileName;
 };
 
-std::string Device::getTimeDate() const {
-    auto t = std::time(nullptr);
-    auto tm = *std::localtime(&t);
-    std::string timeDate = std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
-    return timeDate;
-};
+
+int Device::getRSSI() const {
+    return RSSI;
+}
+
+int Device::getAssignedBrewID() const {
+    return assignedBrewID;
+}
+
+std::string Device::getDeviceType() const {
+    return deviceType;
+}
+
+
 
 
 
@@ -56,33 +72,37 @@ iSpindle::iSpindle(std::string statusfilePath) {
     }
     statusfileName = statusfilePath; // Set the status file name
 };
+
 iSpindle::iSpindle(Json::Value postJSON) {
     //constructor to initialize iSpindle from postJSON
     deviceName = postJSON["name"].asString();
+    deviceID = postJSON["ID"].asInt();
     temperature = postJSON["temperature"].asDouble();
     gravity = postJSON["gravity"].asDouble();
     angle = postJSON["angle"].asDouble();
     batteryVoltage = postJSON["battery"].asDouble();
     RSSI = postJSON["RSSI"].asInt();
-
+    std::string deviceType = "hydrometer";
     statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Set the status file name
 
 };
 
-
 // Deserialize the iSpindle data from JSON 
 void iSpindle::fromStatusfileJSON(const Json::Value& statusJSON) {
     deviceName = statusJSON["deviceName"].asString();
+    deviceID = statusJSON["deviceID"].asInt();
     temperature = statusJSON["temperature"].asDouble();
     gravity = statusJSON["gravity"].asDouble();
     angle = statusJSON["angle"].asDouble();
     batteryVoltage = statusJSON["batteryVoltage"].asDouble();
     calibGravity = statusJSON["calibGravity"].asDouble();
     RSSI = statusJSON["RSSI"].asInt();
-    assignedBrewId = statusJSON["assignedBrewId"].asInt(); 
+    assignedBrewID = statusJSON["assignedBrewID"].asInt(); 
     for (int i = 0; i <= 3; i++) {
         calibCoeffs[i] = statusJSON["calibCoeffs"][i].asDouble();
     }
+    statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Default status file name
+    deviceType = "hydrometer";
 }
 
 
@@ -95,7 +115,7 @@ Json::Value iSpindle::toStatusfileJSON() const {
     statusJSON["angle"] = angle;
     statusJSON["batteryVoltage"] = batteryVoltage;
     statusJSON["calibGravity"] = calibGravity;
-    statusJSON["assignedBrewId"] = assignedBrewId;
+    statusJSON["assignedBrewID"] = assignedBrewID;
     for (int i = 0; i <= 3; i++) {
         statusJSON["calibCoeffs"][i] = calibCoeffs[i];
     }
@@ -143,16 +163,15 @@ void iSpindle::updateDataFromPOST(const Json::Value& postJSON) {
 std::string iSpindle::getLogData() const {
     std::string logData;
 
+    double grav = gravity; // Default to gravity
     if (calibGravity != 0) 
         grav = calibGravity;
-    else
-        grav = gravity;
 
-    logData = getTimeDate() + ',' + 
-            temperature + ',' + 
-            grav + ',' + 
-            batteryVoltage + ',' + 
-            RSSI;
+    logData = getTimeDate() + ',' +
+            std::to_string(temperature) + ',' +
+            std::to_string(grav) + ',' +
+            std::to_string(batteryVoltage) + ',' +
+            std::to_string(RSSI);
    return logData;
 }
 
@@ -187,13 +206,7 @@ void iSpindle::computeCalibGravity() {
     };
 }
 
-void iSpindle::setRSSI(int rssi) {
-    RSSI = rssi;
-}
 
-void iSpindle::setAssignedBrewId(int brewId) {
-    assignedBrewId = brewId;
-}
 
 double iSpindle::getTemperature() const {
     return temperature;
@@ -222,13 +235,7 @@ double iSpindle::getCalibCoeffs(int index) const {
     return calibCoeffs[index];
 }
 
-int iSpindle::getRSSI() const {
-    return RSSI;
-}
 
-int iSpindle::getAssignedBrewID() const {
-    return assignedBrewId;
-}
 
 
 
@@ -244,7 +251,7 @@ void DeviceList::addDevice(std::unique_ptr<Device> device) {
 }
 
 // Get a device by ID (nullptr if not found)
-Device* DeviceList::getDevice(const std::string& id) const {
+Device* DeviceList::getDevice(const int id) const {
     auto it = devices.find(id);
     if (it != devices.end()) {
         return it->second.get();
@@ -253,9 +260,15 @@ Device* DeviceList::getDevice(const std::string& id) const {
 }
 
 // Remove a device by ID
-void DeviceList::removeDevice(const std::string& id) {
+void DeviceList::removeDevice(const int id) {
     devices.erase(id);
 }
 
 
 
+
+
+std::string getTimeDate() {
+    const auto now = std::chrono::system_clock::now();
+    return std::format("{:%Y-%m-%d %H:%M:%S}", now);
+};
