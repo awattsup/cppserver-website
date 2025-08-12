@@ -45,23 +45,18 @@ void Brew::fromBrewJSON(const Json::Value& brewJSON) {
 }
 
 
-void Brew::updateBrewDataLog(Device* device) {
+
+    
+void Brew::updateBrewDataLog(const std::string& deviceType, const std::string& logData){
     // Update the brew log with device data
-    
-    auto t = std::time(nullptr);      // TODO put this in a function?
-    auto tm = *std::localtime(&t);
-    std::string timeDate = std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
-    
-    std::string dataString = timeDate + ',' +
-                            std::to_string(device->getTemperature()) + ',' +
-                            std::to_string(device->getGravity()) + ',' +
-                            std::to_string(device->getBatteryVoltage()) + ',' +
-                            std::to_string(device->getRSSI()) + '\n';
-    // Write to the hydrometer log file
-    std::ofstream logFile(hydrometerLog, std::ios::app);
-    if (logFile.is_open()) 
-        logFile << dataString;
+    logFilename = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_" + deviceType + ".log"
+    std::ofstream logFile(logFilename, std::ios::app);
+    if (logFile.is_open()) {
+        logFile << deviceType << "," << logData << std::endl;
+        logFile.close();
+    }
 }
+
 
 // Setters and getters for brew data
 void Brew::setBrewID(int id) {

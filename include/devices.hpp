@@ -11,12 +11,17 @@ protected:
     int deviceID;
     std::string statusfileName = "data/devices/" + std::to_string(deviceID) + "_" + deviceName + "_status.json"; // Default status file name
     int RSSI; // Received Signal Strength Indicator
+    std::string deviceType; // Type of device, e.g. iSpindle. 
 public:
     Device();
     virtual ~Device();
+
+    virtual std::string getTimeDate() const;
+
     virtual void setDeviceName(const std::string& name);
-    virtual std::string getDeviceName() const;
     virtual void setDeviceID(const int& id);
+
+    virtual std::string getDeviceName() const;
     virtual int getDeviceID() const;
     virtual std::string getStatusFileName() const;
 };
@@ -35,8 +40,17 @@ public:
     iSpindle(std::string statusfilePath);
     iSpindle(Json::Value postJSON);
 
+    // JSON serialization
+    Json::Value toStatusfileJSON() const ;
+    void fromStatusfileJSON(const Json::Value& val) ;
+
+    //file IO
+    void saveStatusfile() const;
+    void loadStatusfile();
 
     void updateDataFromPOST(const Json::Value& postJSON);
+
+    std::string getLogData() const;
 
     // Setters
     void setTemperature(double temp);
@@ -58,13 +72,7 @@ public:
     int getRSSI() const;
     int getAssignedBrewID() const;
 
-    // JSON serialization
-    Json::Value toStatusfileJSON() const ;
-    void fromStatusfileJSON(const Json::Value& val) ;
 
-    //file IO
-    void saveStatusfile() const;
-    void loadStatusfile();
 
 };
 

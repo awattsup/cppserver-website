@@ -15,10 +15,13 @@ private:
     std::string brewType;
     std::string brewDate;
     std::string brewStatus;
-    std::string hydrometerLog = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_hydromlog.dat"; // Log of hydrometer readings
+    std::string hydrometerLog = "data/logs/" + std::to_string(brewID) + "_" + brewName + "_hydrometer.log"; // Log of hydrometer readings
 public:
     Brew();
 
+    void updateBrewDataLog(const std::string& deviceType, const std::string& logData) const;
+
+    
     // Getters
     int getBrewID() const;
     double getIG() const;

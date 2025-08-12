@@ -30,6 +30,13 @@ std::string Device::getStatusFileName() const{
     return statusfileName;
 };
 
+std::string Device::getTimeDate() const {
+    auto t = std::time(nullptr);
+    auto tm = *std::localtime(&t);
+    std::string timeDate = std::put_time(&tm, "%d-%m-%Y %H-%M-%S");
+    return timeDate;
+};
+
 
 
 
@@ -96,7 +103,6 @@ Json::Value iSpindle::toStatusfileJSON() const {
 }
 
 
-
 // iSpindle status file IO
 
 // Save to file
@@ -122,8 +128,6 @@ void iSpindle::loadStatusfile() {
     }
 }
 
-
-
 // Add methods to handle iSpindle data
 void iSpindle::updateDataFromPOST(const Json::Value& postJSON) {
     // Update iSpindle with the received POST data
@@ -133,8 +137,23 @@ void iSpindle::updateDataFromPOST(const Json::Value& postJSON) {
     batteryVoltage = postJSON["batteryVoltage"].asDouble();
     RSSI = postJSON["RSSI"].asInt();
     computeCalibGravity();
+}
 
+// Return data string for brew log
+std::string iSpindle::getLogData() const {
+    std::string logData;
 
+    if (calibGravity != 0) 
+        grav = calibGravity;
+    else
+        grav = gravity;
+
+    logData = getTimeDate() + ',' + 
+            temperature + ',' + 
+            grav + ',' + 
+            batteryVoltage + ',' + 
+            RSSI;
+   return logData;
 }
 
 // Setters and getters for iSpindle data 

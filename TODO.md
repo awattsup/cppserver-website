@@ -2,12 +2,10 @@
 
 ## In Progress
 
-- [ ] Refactor logging so each device assigned to a brew writes to a unique log file (include deviceID or deviceName in filename)
-- [ ] Decouple device and database logging logic: device provides data, handler/database constructs log filename and writes log
+
 - [ ] Implement device method for returning log data.
 - [ ] Add web UI for managing devices  
-- [ ] Add device type attribute
-- [ ] Move time-date function to devices
+
 
 ## Planned
 - [ ] Implement authentication for POST endpoints
@@ -18,6 +16,10 @@
 - [ ] Populate website side of the codebase
 
 ## Completed
+- [x] Refactor logging so each device assigned to a brew writes to a unique log based off device type)
+- [x] Decouple device and database logging logic: device provides data, handler/database constructs log filename and writes log
+- [x] Add device type attribute
+- [x] Move time-date function to devices
 - [x] Implement update of data logs by devices when POST data is received. 
 - [x] Add endpoint to dynamically update/add new devices from POST data
 - [x] Refactor device class hierarchy for extensibility
