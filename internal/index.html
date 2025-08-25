@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Brew & Device Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Brew & Device Manager</h1>
+    <section>
+        <h2>Create New Brew</h2>
+        <form id="brewForm">
+            <input name="brewName" placeholder="Brew Name" required>
+            <input name="brewType" placeholder="Type" required>
+            <input name="brewDate" placeholder="Date" required>
+            <button type="submit">Create Brew</button>
+        </form>
+    </section>
+    <section>
+        <h2>Active Brews</h2>
+        <pre id="brewList"></pre>
+    </section>
+    <section>
+        <h2>Active Devices</h2>
+        <pre id="deviceList"></pre>
+    </section>
+    <script src="ui.js"></script>
+</body>
+</html>

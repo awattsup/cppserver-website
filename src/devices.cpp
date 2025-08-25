@@ -1,3 +1,18 @@
+// Serialize all devices to JSON for REST API
+Json::Value DeviceList::toJson() const {
+    Json::Value devicesJson(Json::arrayValue);
+    for (const auto& [id, devicePtr] : devices) {
+        Json::Value devJson;
+        devJson["deviceID"] = devicePtr->getDeviceID();
+        devJson["deviceName"] = devicePtr->getDeviceName();
+        devJson["deviceType"] = devicePtr->getDeviceType();
+        devJson["assignedBrewID"] = devicePtr->getAssignedBrewID();
+        devJson["RSSI"] = devicePtr->getRSSI();
+        devJson["statusfileName"] = devicePtr->getStatusFileName();
+        devicesJson.append(devJson);
+    }
+    return devicesJson;
+}
 #include <cstdlib>
 #include <cmath>
 #include <fstream>

@@ -120,6 +120,54 @@ int main()
         sendHtml(res, "index.html");            
     });
 
+    // Serve internal UI
+    CROW_ROUTE(app, "/internal")([](const crow::request&, crow::response& res){
+        sendFile(res, "internal/index.html", "text/html");
+    });
+
+    CROW_ROUTE(app, "/internal/<string>")([](const crow::request&, crow::response& res, std::string filename){
+        if (filename.size() > 3 && filename.substr(filename.size()-3) == ".js")
+            sendFile(res, "internal/" + filename, "application/javascript");
+        else if (filename.size() > 4 && filename.substr(filename.size()-4) == ".css")
+            sendFile(res, "internal/" + filename, "text/css");
+        else res.code = 404;
+        res.end();
+    });
+
+    // REST API endpoints for brews
+    CROW_ROUTE(app, "/api/brews").methods(crow::HTTPMethod::Get)
+    ([&brewDatabase](const crow::request&){
+        return crow::response(brewDatabase.toDatabaseJSON().toStyledString());
+    });
+
+    CROW_ROUTE(app, "/api/brews").methods(crow::HTTPMethod::Post)
+    ([&brewDatabase](const crow::request& req){
+        Json::Value brewJson;
+        Json::Reader reader;
+        if (!reader.parse(req.body, brewJson)) return crow::response(400, "Invalid JSON");
+        Brew newBrew;
+        newBrew.fromBrewJSON(brewJson);
+        brewDatabase.addBrew(newBrew);
+        return crow::response(201, "Brew created");
+    });
+
+    // REST API endpoints for devices
+    CROW_ROUTE(app, "/api/devices").methods(crow::HTTPMethod::Get)
+    ([&deviceList](const crow::request&){
+        return crow::response(deviceList.toJson().toStyledString());
+    });
+
+    CROW_ROUTE(app, "/api/devices/<int>").methods(crow::HTTPMethod::Put)
+    ([&deviceList](const crow::request& req, int id){
+        Json::Value devJson;
+        Json::Reader reader;
+        if (!reader.parse(req.body, devJson)) return crow::response(400, "Invalid JSON");
+        Device* dev = deviceList.getDevice(id);
+        if (!dev) return crow::response(404, "Device not found");
+        dev->updateDataFromPOST(devJson);
+        return crow::response(200, "Device updated");
+    });
+
     char *port = getenv("PORT");
     uint16_t iPort = static_cast<uint16_t>(port != NULL? std::stoi(port) : 8080);
     std::cout << "PORT = " << iPort << std::endl;
