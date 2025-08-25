@@ -1,20 +1,26 @@
 # TODO
 
 ## In Progress
-- [ ] Add web UI for managing devices and interacting with database
-- [ ] Add persistent storage for device and  databases
-- [ ] REST API for querying device and databse status
-
+- [ ] Add devices and test functionality
+- [ ] Expand UI with all 
+- [ ] Populate website side of the codebase
 
 ## Planned
 - [ ] Implement authentication for POST endpoints
 - [ ] Add unit tests for device and database logic
 - [ ] Improve error handling and logging
-- [ ] Populate website side of the codebase
+- [ ] Implement internal authentication
+- [ ] Add input path validation to prevent unintended access
+- [ ] Add the ability to serve to a custom URL
+- [ ] Add the ability to display brew info as blog pages
+- [ ] Add the ability to show brew/device status on website pages
 
 ## Completed
+- [x] Add basic web UI for managing devices and interacting with database
+- [x] Add persistent storage for device and  databases
+- [x] REST API for querying device and databse status
 - [x] Implement device method for returning log data.
-- [x] Refactor logging so each device assigned to a brew writes to a unique log based off device type)
+- [x] Refactor logging so each device assigned to a brew writes to a unique log based off device type
 - [x] Decouple device and database logging logic: device provides data, handler/database constructs log filename and writes log
 - [x] Add device type attribute
 - [x] Move time-date function to devices

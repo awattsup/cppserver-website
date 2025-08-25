@@ -94,9 +94,7 @@ public:
     void removeDevice(const int id);
     size_t size() const;
 
-    // JSON serialization
     Json::Value toJson() const;
-
 
 };
 

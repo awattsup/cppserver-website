@@ -32,6 +32,25 @@ void sendFile(crow::response& res, std::string filename, std::string contentType
     res.end();
 }
 
+void sendFileInternal(crow::response& res, std::string filename, std::string contentType){
+    std::cout << "Sending file: " << filename << std::endl;
+    std::cout << "Sending file: " << "./" +filename << std::endl;
+
+    std::ifstream in("./" + filename, std::ifstream::in);
+    if (in){
+        std::ostringstream contents;
+        contents << in.rdbuf();
+        in.close();
+        res.set_header("Content-Type", contentType);
+        res.write(contents.str());
+    }
+    else {
+        res.code = 404;
+        res.write("Not found");
+    }
+    res.end();
+}
+
 void sendHtml(crow::response& res, std::string filename){
     sendFile(res,filename,"text/html");
 }
@@ -122,14 +141,14 @@ int main()
 
     // Serve internal UI
     CROW_ROUTE(app, "/internal")([](const crow::request&, crow::response& res){
-        sendFile(res, "internal/index.html", "text/html");
+        sendFileInternal(res, "internal/index.html", "text/html");
     });
 
     CROW_ROUTE(app, "/internal/<string>")([](const crow::request&, crow::response& res, std::string filename){
         if (filename.size() > 3 && filename.substr(filename.size()-3) == ".js")
-            sendFile(res, "internal/" + filename, "application/javascript");
+            sendFileInternal(res, "internal/" + filename, "application/javascript");
         else if (filename.size() > 4 && filename.substr(filename.size()-4) == ".css")
-            sendFile(res, "internal/" + filename, "text/css");
+            sendFileInternal(res, "internal/" + filename, "text/css");
         else res.code = 404;
         res.end();
     });
